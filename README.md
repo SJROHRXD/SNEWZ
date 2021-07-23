@@ -6,4 +6,7 @@ Sarah, Mauri, Zakk, Ray
 
 My favorite part of JavaScript is googling everything I know.
 
+## 4th Update
+My favorite part of JavaScript is how I still feel like a deer in headlights 
+
 
