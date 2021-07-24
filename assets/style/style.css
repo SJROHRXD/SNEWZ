@@ -1,0 +1,21 @@
+ body {
+     margin: 0;
+    background-color: #363636;
+ }
+
+/* .has-background-primary {
+    background-color: #2fce03b9 !important;
+} */
+
+.has-background-info, .is-info{
+    background-color: #3a506b !important;
+}
+
+.button {
+    font-size: .8rem !important;
+}
+
+.button:hover {
+    font-size: .9rem !important;
+    background-color: #3968a1 !important;
+}

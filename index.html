@@ -6,15 +6,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="assets/style/style.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32x32.png">
     <title>Document</title>
 </head>
 <body>
-   <header>
-       <h1>SNewZ</h1>
-       <p>Lorem ipsum dolor sit amet.</p>
-   </header>
+    <header class="columns has-background-primary has-text-left p-2">
+        <div class="column">
+        <img class="image is-64x64" src="assets/images/headerSnewz.gif">
+       <h1 class="title has-text-dark">SNewZ</h1>
+       <p class="subtitle is-italic has-text-dark">Snewz through your Stocks and News</p>
+       </div>
+    </header>
 
-   <div>
+   <div class="columns box has-background-dark m-3">
+        <div class="column box is-one-fifth is-rounded has-background-primary p-4">
+            <input type="text" placeholder="Enter Company Symbol" class="input is-rounded is-primary is-round is-small m-1" id="searchInput">
+            <button class="button is-small is-dark is-rounded m-1" id="searchBtn">Search</button>
+            <button class="button is-small is-danger is-rounded m-1" id="clearAllBtn">Clear All</button>
+            <div class="column is-one-fifth">
+                <ul id="seachHistoryUi" class="has-text-white">
+                    <li class="button is-info is-size-5 is-clickable m-1" id="seachHistoryLi">
+                        History1
+                    </li>
+                    <li class="button is-info is-size-5 is-clickable m-1" id="seachHistoryLi">
+                        History2
+                    </li>
+                    <li class="button is-info is-size-5 is-clickable m-1" id="seachHistoryLi">
+                        History3
+                    </li>
+                    <li class="button is-info is-size-5 is-clickable m-1" id="seachHistoryLi">
+                        History4
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="column">
+                <div class="box has-background-info has-text-white">
+                <h2 class="title has-text-white">Company Name</h2>
+                <p class='subtitle has-text-white' id="companyDesc">Lorem ipsum dolor sit amet consectetur.</p>
+                <ul id="companyStockInfo">
+                    <li class='is-small' id="price">
+                        Price: 99.99
+                    </li>
+                    <li class='is-small' id="openingPrice">
+                        Opening: 199.99
+                    </li>
+                    <li class='is-small' id="weekHigh">
+                        52 Week High: 399.99
+                    </li>
+                    <id class='is-small' id="volume">
+                        Market Volume: 1.4b
+                    </id>
+                </ul>
+            </div>
+            <div class="column is-full has-background-info">
+                <ul id="newsArticlesUl">
+                    <li class="box has-background-dark has-text-white" id="newsArticlesLi">
+                        <h4 id="articleName">Title Lorem</h4>
+                        <img class='image is-64x64'id="articleImg" src="https://w7.pngwing.com/pngs/954/328/png-transparent-computer-icons-user-profile-avatar-heroes-head-recruiter-thumbnail.png">
+                        <p id="articleDesc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt, facere.</p>
+                    </li>
+                    <li class="box has-background-dark has-text-white" id="newsArticlesLi">
+                        <h4 id="articleName">Title Lorem</h4>
+                        <img id="articleImg" class='image is-64x64'src="https://w7.pngwing.com/pngs/954/328/png-transparent-computer-icons-user-profile-avatar-heroes-head-recruiter-thumbnail.png">
+                        <p id="articleDesc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt, facere.</p>
+                    </li>
+                    <li class="box has-background-dark has-text-white" id="newsArticlesLi">
+                        <h4 id="articleName">Title Lorem</h4>
+                        <img id="articleImg" class='image is-64x64' src="https://w7.pngwing.com/pngs/954/328/png-transparent-computer-icons-user-profile-avatar-heroes-head-recruiter-thumbnail.png">
+                        <p id="articleDesc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt, facere.</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+   </div>
+   <!-- <div>
        <input type="text" placeholder="Enter Company Symbol" id="searchInput">
        <button class="button is-small is-primary is-rounded" id="searchBtn">Search</button>
    </div>
@@ -77,7 +144,7 @@
                 <p id="articleDesc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt, facere.</p>
             </li>
         </ul>
-   </div>
+   </div> -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" 
     integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" 
