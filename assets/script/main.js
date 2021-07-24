@@ -16,7 +16,6 @@ let company = ["AMZN", "PYPL", "AAPL", "UBER", "LYFT", "DAL"];
 function handleSearchButtonClick(event) {
     console.log(event.target);
     //TODO: read the value of the search field and store it
-
     //TODO: call the stockprice api to get the data 
     //TODO: call the news api to get the news
     //TODO: catch potential errors and stop execution
@@ -57,7 +56,21 @@ function callStockPriceApi(companySymbol) {
 */
 function callNewsApi(companySymbol) {
     //TODO: build API query with symbol
+    API_KEY = "a3a7caa069bf4cf2bf8a8ba216417fe3";
     APIQuery = "";
+
+    var url = 'http://newsapi.org/v2/everything?' +
+          'q=' + companySymbol + '&' +
+          'from=2021-07-24&' +
+          'sortBy=popularity&' +
+          'apiKey=a3a7caa069bf4cf2bf8a8ba216417fe3';
+
+    var req = new Request(url);
+
+    fetch(req)
+        .then(function(response) {
+            console.log(response.json());
+        })
     
     //TODO: fetch the api and get the result
 
@@ -66,11 +79,17 @@ function callNewsApi(companySymbol) {
 
 /*
     Function: processStockPriceResults
-    Purpose: prints results to screen 
+    Purpose: prints results to html page 
     input: stockData - json of the result from the api call
     return: none
 */
-function processStockPriceResults(stockData) {}
+function processStockPriceResults(stockData) {
+    let stockInfoUlEl = $("#stockPanelData");
+    let stockPrice = stockData["Global Quote"]["05. price"];
+    let stockPriceEl = $("<li>Price: " + stockPrice + "</li>");
+    stockInfoUlEl.append(stockPriceEl);
+    //TODO: append other stock parameter to the list
+}
 
 /*
     Function: processNewsArticlResults
@@ -94,6 +113,9 @@ function addSymbolToHistory(symbol){
 /*
     Script Executions
 */
+$("#searchBtn").click(handleSearchButtonClick)
 callStockPriceApi(company[0]);
+callNewsApi(company[0]);
+
 
 //TODO: on refresh load the last searched stock
