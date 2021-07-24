@@ -13,13 +13,71 @@
        <h1>SNewZ</h1>
        <p>Lorem ipsum dolor sit amet.</p>
    </header>
+
    <div>
        <input type="text" placeholder="Enter Company Symbol" id="searchInput">
-       <button id="searchBtn">Search</button>
+       <button class="button is-small is-primary is-rounded" id="searchBtn">Search</button>
    </div>
-   <div id="searchHistory"></div>
-   <div id="stockPanel"></div>
-   <div id="newsPanel"></div>
+
+   <div id="searchHistory">
+        <ul id="seachHistoryUi">
+            <li id="seachHistoryLi">
+                searchhistory.
+            </li>
+            <li id="seachHistoryLi">
+                Lorem.
+            </li>
+            <li id="seachHistoryLi">
+                Lorem.
+            </li>
+            <li id="seachHistoryLi">
+                Lorem.
+            </li>
+        </ul>
+   </div>
+
+   <div id="stockPanel">
+        <h2 id="companyName">
+            companyName.
+        </h2>
+        <p id="companyDesc">
+            Lorem ipsum dolor sit amet consectetur.
+        </p>
+        <ul id="companyStockInfo">
+            <li id="price">
+                99.99
+            </li>
+            <li id="openingPrice">
+                199.99
+            </li>
+            <li id="weekHigh">
+                399.99
+            </li>
+            <id id="volume">
+                1.4b
+            </id>
+        </ul>
+   </div>
+
+   <div id="newsPanel">
+        <ul id="newsArticlesUl">
+            <li id="newsArticlesLi">
+                <h4 id="articleName">Title Lorem</h4>
+                <img class='image is-64x64'id="articleImg" src="https://w7.pngwing.com/pngs/954/328/png-transparent-computer-icons-user-profile-avatar-heroes-head-recruiter-thumbnail.png">
+                <p id="articleDesc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt, facere.</p>
+            </li>
+            <li id="newsArticlesLi">
+                <h4 id="articleName">Title Lorem</h4>
+                <img id="articleImg" class='image is-64x64'src="https://w7.pngwing.com/pngs/954/328/png-transparent-computer-icons-user-profile-avatar-heroes-head-recruiter-thumbnail.png">
+                <p id="articleDesc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt, facere.</p>
+            </li>
+            <li id="newsArticlesLi">
+                <h4 id="articleName">Title Lorem</h4>
+                <img id="articleImg" class='image is-64x64' src="https://w7.pngwing.com/pngs/954/328/png-transparent-computer-icons-user-profile-avatar-heroes-head-recruiter-thumbnail.png">
+                <p id="articleDesc">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Sunt, facere.</p>
+            </li>
+        </ul>
+   </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" 
     integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" 
