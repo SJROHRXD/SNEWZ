@@ -58,7 +58,8 @@ function callNewsApi(companySymbol) {
     
     var url = "http://api.mediastack.com/v1/news" + 
     "?access_key=fd3243985364e10fe4addcfc54c90c8c" + 
-    "&keywords=" + companySymbol;
+    "&keywords=" + companySymbol + 
+    "&category=business";
 
     fetch(url)
     .then((response) => response.json())
@@ -93,15 +94,15 @@ function processStockPriceResults(stockData) {
 function processNewsArticlResults(newsData) {
     const ARTICLES_TO_DISPALY = 5;
     console.log(newsData);
-    let newsArticleUlEl = $("#newsArticlesLi");
+    let newsArticleUlEl = $("#newsArticlesUl");
     newsArticleUlEl.empty();
     
-    for (let i = 0; i < ARTICLES_TO_DISPALY; i++) {
+    for (let i = 0; i < newsData.data.length; i++) {
         let image = newsData.data[i].image;
         let title = newsData.data[i].title;
         let url = newsData.data[i].url;
         let description = newsData.data[i].description;
-        let newsArticlLiEl = $("<li> <a href=" + url + ">" + title + "</a></li>");
+        let newsArticlLiEl = $("<li> <a href=" + url + ">" + title + "</a><p>" + description +  "</p></li>");
         newsArticleUlEl.append(newsArticlLiEl);
         console.log(image, title, url, description);
     }
