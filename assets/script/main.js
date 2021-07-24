@@ -91,7 +91,20 @@ function processStockPriceResults(stockData) {
     return: none
 */
 function processNewsArticlResults(newsData) {
+    const ARTICLES_TO_DISPALY = 5;
     console.log(newsData);
+    let newsArticleUlEl = $("#newsArticlesLi");
+    newsArticleUlEl.empty();
+    
+    for (let i = 0; i < ARTICLES_TO_DISPALY; i++) {
+        let image = newsData.data[i].image;
+        let title = newsData.data[i].title;
+        let url = newsData.data[i].url;
+        let description = newsData.data[i].description;
+        let newsArticlLiEl = $("<li> <a href=" + url + ">" + title + "</a></li>");
+        newsArticleUlEl.append(newsArticlLiEl);
+        console.log(image, title, url, description);
+    }
 }
 
 /*
