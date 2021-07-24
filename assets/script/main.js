@@ -1,6 +1,7 @@
 /*
     Global variables and constants
 */
+let company = ["AMZN", "PYPL", "AAPL", "UBER", "LYFT", "DAL"];
 
 /* 
     Functions
@@ -29,12 +30,23 @@ function handleSearchButtonClick(event) {
     returns: TBD
 */
 function callStockPriceApi(companySymbol) {
-    //TODO: build API query with symbol
-    APIQuery = "";
-    
-    //TODO: fetch the api and get the result
-
-    //TODO: process the results
+    // build API query with symbol
+    console.log("company symbol " + companySymbol);
+    APIQuery = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${companySymbol}&apikey=8XODZRFY9GB4A5XY`;
+    // fetch the api and get the result
+    fetch (APIQuery)
+        .then((response) => response.json())
+        .then((responseJson) => {
+            //TODO: remove these logging statements before final submission
+            console.log(responseJson);
+            console.log(responseJson["Global Quote"]["05. price"]);
+            // process the results
+            processStockPriceResults(responseJson);
+            addSymbolToHistory(companySymbol);
+        })
+        .catch((error)=>{
+            console.error(error);
+        });
 }
 
 /* 
@@ -74,10 +86,14 @@ function processNewsArticlResults(newsData) {}
     input: symbol - they company's symbol to add
     return: none
 */
-function addSymbolToHistory(symbol){}
+function addSymbolToHistory(symbol){
+    console.log("adding symbol to history");
+}
 
 
 /*
     Script Executions
 */
+callStockPriceApi(company[0]);
+
 //TODO: on refresh load the last searched stock
