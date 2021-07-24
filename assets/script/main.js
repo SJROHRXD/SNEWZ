@@ -55,26 +55,19 @@ function callStockPriceApi(companySymbol) {
     returns: TBD
 */
 function callNewsApi(companySymbol) {
-    //TODO: build API query with symbol
-    API_KEY = "a3a7caa069bf4cf2bf8a8ba216417fe3";
-    APIQuery = "";
-
-    var url = 'http://newsapi.org/v2/everything?' +
-          'q=' + companySymbol + '&' +
-          'from=2021-07-24&' +
-          'sortBy=popularity&' +
-          'apiKey=a3a7caa069bf4cf2bf8a8ba216417fe3';
-
-    var req = new Request(url);
-
-    fetch(req)
-        .then(function(response) {
-            console.log(response.json());
-        })
     
-    //TODO: fetch the api and get the result
+    var url = "http://api.mediastack.com/v1/news" + 
+    "?access_key=fd3243985364e10fe4addcfc54c90c8c" + 
+    "&keywords=" + companySymbol;
 
-    //TODO: process the results
+    fetch(url)
+    .then((response) => response.json())
+        .then((responseJson) => {
+            processNewsArticlResults(responseJson);
+        })
+        .catch((error)=>{
+            console.error(error);
+        });
 }
 
 /*
@@ -97,7 +90,9 @@ function processStockPriceResults(stockData) {
     input: newsData - json of the result from the api call
     return: none
 */
-function processNewsArticlResults(newsData) {}
+function processNewsArticlResults(newsData) {
+    console.log(newsData);
+}
 
 /*
     Function: addSymbolToHistory
@@ -114,7 +109,7 @@ function addSymbolToHistory(symbol){
     Script Executions
 */
 $("#searchBtn").click(handleSearchButtonClick)
-callStockPriceApi(company[0]);
+//callStockPriceApi(company[0]);
 callNewsApi(company[0]);
 
 
