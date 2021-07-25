@@ -15,11 +15,15 @@ let company = ["AMZN", "PYPL", "AAPL", "UBER", "LYFT", "DAL"];
 */
 function handleSearchButtonClick(event) {
     console.log(event.target);
+    let userInput=$("#searchInput").val();
+    console.log(userInput);
     //TODO: read the value of the search field and store it
     //TODO: call the stockprice api to get the data 
     //TODO: call the news api to get the news
     //TODO: catch potential errors and stop execution
     //process the data and display it
+callStockPriceApi(userInput);
+callNewsApi(userInput)
 }
 
 /* 
@@ -40,7 +44,8 @@ function callStockPriceApi(companySymbol) {
             console.log(responseJson);
             console.log(responseJson["Global Quote"]["05. price"]);
             // process the results
-            processStockPriceResults(responseJson);
+            let data=responseJson["Global Quote"];
+            processStockPriceResults(data);
             addSymbolToHistory(companySymbol);
         })
         .catch((error)=>{
@@ -78,10 +83,20 @@ function callNewsApi(companySymbol) {
     return: none
 */
 function processStockPriceResults(stockData) {
-    let stockInfoUlEl = $("#stockPanelData");
-    let stockPrice = stockData["Global Quote"]["05. price"];
-    let stockPriceEl = $("<li>Price: " + stockPrice + "</li>");
-    stockInfoUlEl.append(stockPriceEl);
+    console.log("stockData", stockData);
+    // let stockInfoUlEl = $("#stockPanelData");
+    // let stockPrice = stockData["05. price"];
+    // let stockPriceEl = $("<li>Price: " + stockPrice + "</li>");
+
+
+    // stockInfoUlEl.append(stockPriceEl);
+    $("#companyName").text("Company Name: " + stockData["01. symbol"]);
+    $("#price").text("Price: " + stockData ["05. price"]);
+    $("#openingPrice").text("Opening: " + stockData ["02. open"]);
+    $("#weekHigh").text("52 Weeks High: " + stockData ["03. high"]);
+    $("#volume").text("Market Volume: " + stockData ["06. volume"]);
+
+
     //TODO: append other stock parameter to the list
 }
 
@@ -156,6 +171,7 @@ function getStockPriceColor(stockPrice, openningPrice) {
     Script Executions
 */
 $("#searchBtn").click(handleSearchButtonClick)
+
 //callStockPriceApi(company[0]);
 //callNewsApi(company[0]);
 function addSymbolHistoryTest() {
@@ -174,6 +190,7 @@ function addSymbolHistoryTest() {
     */
 }
 addSymbolHistoryTest();
+
 
 
 
