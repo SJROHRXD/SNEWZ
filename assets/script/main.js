@@ -169,24 +169,6 @@ function getStockPriceColor(stockPrice, openningPrice) {
     Script Executions
 */
 $("#searchBtn").click(handleSearchButtonClick)
-
-//callStockPriceApi(company[0]);
-//callNewsApi(company[0]);
-function addSymbolHistoryTest() {
-    addSymbolToHistory("amazon", "1000");
-    addSymbolToHistory("apple", "200");
-    addSymbolToHistory("netflix", "300");
-    addSymbolToHistory("google", "2000");
-    addSymbolToHistory("apple", "300");
-
-    //should display in this order
-    /*
-        apple 300
-        google 2000
-        netflix 300
-        amazon 1000
-    */
-}
 addSymbolHistoryTest();
 
 
