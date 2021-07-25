@@ -122,8 +122,19 @@ function processNewsArticlResults(newsData) {
     input: symbol - they company's symbol to add
     return: none
 */
-function addSymbolToHistory(symbol){
+function addSymbolToHistory(symbol, price){
     console.log("adding symbol to history");
+    //get the history elements
+    let historyUlEl = $("#seachHistoryUi");
+    let historyLiEl = $(`#${symbol}`);
+    historyLiEl.remove();
+
+    historyLiEl = $("<li class=\"button is-info is-size-5 is-clickable m-1\" id=\"" + symbol + "\">" 
+    + symbol + ":" + price + "</li>");
+    historyUlEl.prepend(historyLiEl);
+    
+    //TODO: need to write to storage
+    //TODO: need to add on click
 }
 
 /*
@@ -141,7 +152,25 @@ function getStockPriceColor(stockPrice, openningPrice) {
 */
 $("#searchBtn").click(handleSearchButtonClick)
 //callStockPriceApi(company[0]);
-callNewsApi(company[0]);
+//callNewsApi(company[0]);
+function addSymbolHistoryTest() {
+    addSymbolToHistory("amazon", "1000");
+    addSymbolToHistory("apple", "200");
+    addSymbolToHistory("netflix", "300");
+    addSymbolToHistory("google", "2000");
+    addSymbolToHistory("apple", "300");
+
+    //should display in this order
+    /*
+        apple 300
+        google 2000
+        netflix 300
+        amazon 1000
+    */
+}
+addSymbolHistoryTest();
+
+
 
 
 //TODO: on refresh load the last searched stock
