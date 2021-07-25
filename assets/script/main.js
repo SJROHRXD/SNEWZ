@@ -16,7 +16,6 @@ let company = ["AMZN", "PYPL", "AAPL", "UBER", "LYFT", "DAL"];
 function handleSearchButtonClick(event) {
     console.log(event.target);
     //TODO: read the value of the search field and store it
-
     //TODO: call the stockprice api to get the data 
     //TODO: call the news api to get the news
     //TODO: catch potential errors and stop execution
@@ -56,21 +55,35 @@ function callStockPriceApi(companySymbol) {
     returns: TBD
 */
 function callNewsApi(companySymbol) {
-    //TODO: build API query with symbol
-    APIQuery = "";
     
-    //TODO: fetch the api and get the result
+    var url = "http://api.mediastack.com/v1/news" + 
+    "?access_key=fd3243985364e10fe4addcfc54c90c8c" + 
+    "&keywords=" + companySymbol + 
+    "&category=business&sort=published_desc&limit=5";
 
-    //TODO: process the results
+    fetch(url)
+    .then((response) => response.json())
+        .then((responseJson) => {
+            processNewsArticlResults(responseJson);
+        })
+        .catch((error)=>{
+            console.error(error);
+        });
 }
 
 /*
     Function: processStockPriceResults
-    Purpose: prints results to screen 
+    Purpose: prints results to html page 
     input: stockData - json of the result from the api call
     return: none
 */
-function processStockPriceResults(stockData) {}
+function processStockPriceResults(stockData) {
+    let stockInfoUlEl = $("#stockPanelData");
+    let stockPrice = stockData["Global Quote"]["05. price"];
+    let stockPriceEl = $("<li>Price: " + stockPrice + "</li>");
+    stockInfoUlEl.append(stockPriceEl);
+    //TODO: append other stock parameter to the list
+}
 
 /*
     Function: processNewsArticlResults
@@ -78,7 +91,24 @@ function processStockPriceResults(stockData) {}
     input: newsData - json of the result from the api call
     return: none
 */
-function processNewsArticlResults(newsData) {}
+function processNewsArticlResults(newsData) {
+    console.log(newsData);
+    let newsArticleUlEl = $("#newsArticlesUl");
+    newsArticleUlEl.empty();
+    
+    for (let i = 0; i < newsData.data.length; i++) {
+        let image = newsData.data[i].image;
+        if(image == null) {
+            image = "";
+        }
+        let title = newsData.data[i].title;
+        let url = newsData.data[i].url;
+        let description = newsData.data[i].description;
+        let date = new Date(newsData.data[i].published_at).toDateString();
+        let newsArticlLiEl = $("<li> <a href=" + url + ">" + title + "</a><p>"+ date + ": " + description +  "</p></li>");
+        newsArticleUlEl.append(newsArticlLiEl);
+    }
+}
 
 /*
     Function: addSymbolToHistory
@@ -94,6 +124,9 @@ function addSymbolToHistory(symbol){
 /*
     Script Executions
 */
-callStockPriceApi(company[0]);
+$("#searchBtn").click(handleSearchButtonClick)
+//callStockPriceApi(company[0]);
+callNewsApi(company[0]);
+
 
 //TODO: on refresh load the last searched stock
