@@ -15,15 +15,13 @@ let company = ["AMZN", "PYPL", "AAPL", "UBER", "LYFT", "DAL"];
 */
 function handleSearchButtonClick(event) {
     console.log(event.target);
+    //read the value of the search field and store it
     let userInput=$("#searchInput").val();
     console.log(userInput);
-    //TODO: read the value of the search field and store it
-    //TODO: call the stockprice api to get the data 
-    //TODO: call the news api to get the news
-    //TODO: catch potential errors and stop execution
-    //process the data and display it
-callStockPriceApi(userInput);
-callNewsApi(userInput)
+    //call the stockprice api to get the data 
+    callStockPriceApi(userInput);
+    //call the news api to get the news
+    callNewsApi(userInput)
 }
 
 /* 
