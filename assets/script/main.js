@@ -105,7 +105,10 @@ function processNewsArticlResults(newsData) {
         let url = newsData.data[i].url;
         let description = newsData.data[i].description;
         let date = new Date(newsData.data[i].published_at).toDateString();
-        let newsArticlLiEl = $("<li> <a href=" + url + ">" + title + "</a><p>"+ date + ": " + description +  "</p></li>");
+        //TODO: make this cleaner
+        let newsArticlLiEl = $("<li class=\"box has-background-dark has-text-white\">" +
+        "<h4 id=\"articleName\"><a href=" + url + ">" + title + "</a></h4>" +
+        "<p id=\"articleDesc\">"+ date + ": " + description +  "</p></li>");
         newsArticleUlEl.append(newsArticlLiEl);
     }
 }
