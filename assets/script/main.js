@@ -59,7 +59,7 @@ function callNewsApi(companySymbol) {
     var url = "http://api.mediastack.com/v1/news" + 
     "?access_key=fd3243985364e10fe4addcfc54c90c8c" + 
     "&keywords=" + companySymbol + 
-    "&category=business&sort=published_desc&limit=5";
+    "&category=business&sort=published_desc&limit=5&languages=en";
 
     fetch(url)
     .then((response) => response.json())
@@ -131,6 +131,11 @@ function addSymbolToHistory(symbol, price){
 
     historyLiEl = $("<li class=\"button is-info is-size-5 is-clickable m-1\" id=\"" + symbol + "\">" 
     + symbol + ":" + price + "</li>");
+    historyLiEl.click(function (event) {
+        console.log(event.currentTarget.id);
+        callNewsApi(symbol);
+        //callStockPriceApi(symbo);
+    });
     historyUlEl.prepend(historyLiEl);
     
     //TODO: need to write to storage
