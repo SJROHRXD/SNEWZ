@@ -44,7 +44,7 @@ function callStockPriceApi(companySymbol) {
             // process the results
             let data=responseJson["Global Quote"];
             processStockPriceResults(data);
-            addSymbolToHistory(companySymbol);
+            addSymbolToHistory(companySymbol, responseJson["Global Quote"]["05. price"]);
         })
         .catch((error)=>{
             console.error(error);
@@ -137,6 +137,7 @@ function processNewsArticlResults(newsData) {
 */
 function addSymbolToHistory(symbol, price){
     console.log("adding symbol to history");
+    symbol = symbol.toUpperCase();
     //get the history elements
     let historyUlEl = $("#seachHistoryUi");
     let historyLiEl = $(`#${symbol}`);
@@ -147,7 +148,7 @@ function addSymbolToHistory(symbol, price){
     historyLiEl.click(function (event) {
         console.log(event.currentTarget.id);
         callNewsApi(symbol);
-        //callStockPriceApi(symbo);
+        callStockPriceApi(symbol);
     });
     historyUlEl.prepend(historyLiEl);
     
@@ -169,7 +170,6 @@ function getStockPriceColor(stockPrice, openningPrice) {
     Script Executions
 */
 $("#searchBtn").click(handleSearchButtonClick)
-addSymbolHistoryTest();
 
 
 
