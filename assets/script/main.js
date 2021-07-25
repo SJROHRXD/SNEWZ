@@ -1,7 +1,7 @@
 /*
     Global variables and constants
 */
-let company = ["AMZN", "PYPL", "AAPL", "UBER", "LYFT", "DAL"];
+
 
 /* 
     Functions
@@ -82,20 +82,13 @@ function callNewsApi(companySymbol) {
 */
 function processStockPriceResults(stockData) {
     console.log("stockData", stockData);
-    // let stockInfoUlEl = $("#stockPanelData");
-    // let stockPrice = stockData["05. price"];
-    // let stockPriceEl = $("<li>Price: " + stockPrice + "</li>");
 
-
-    // stockInfoUlEl.append(stockPriceEl);
     $("#companyName").text("Company Name: " + stockData["01. symbol"]);
+    //TODO: handle the price color display
     $("#price").text("Price: " + stockData ["05. price"]);
     $("#openingPrice").text("Opening: " + stockData ["02. open"]);
     $("#weekHigh").text("52 Weeks High: " + stockData ["03. high"]);
     $("#volume").text("Market Volume: " + stockData ["06. volume"]);
-
-
-    //TODO: append other stock parameter to the list
 }
 
 /*
@@ -141,10 +134,11 @@ function addSymbolToHistory(symbol, price){
     //get the history elements
     let historyUlEl = $("#seachHistoryUi");
     let historyLiEl = $(`#${symbol}`);
+    //remove the item from the list to avoid having duplicates
     historyLiEl.remove();
-
     historyLiEl = $("<li class=\"button is-info is-size-5 is-clickable m-1\" id=\"" + symbol + "\">" 
     + symbol + ":" + price + "</li>");
+    //add on click
     historyLiEl.click(function (event) {
         console.log(event.currentTarget.id);
         callNewsApi(symbol);
@@ -153,7 +147,6 @@ function addSymbolToHistory(symbol, price){
     historyUlEl.prepend(historyLiEl);
     
     //TODO: need to write to storage
-    //TODO: need to add on click
 }
 
 /*
@@ -166,13 +159,8 @@ function addSymbolToHistory(symbol, price){
 function getStockPriceColor(stockPrice, openningPrice) {
     return null;
 }
+
 /*
     Script Executions
 */
 $("#searchBtn").click(handleSearchButtonClick)
-
-
-
-
-
-//TODO: on refresh load the last searched stock
