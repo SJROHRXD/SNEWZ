@@ -107,8 +107,11 @@ function processNewsArticlResults(newsData) {
         let date = new Date(newsData.data[i].published_at).toDateString();
         //TODO: make this cleaner
         let newsArticlLiEl = $("<li class=\"box has-background-dark has-text-white\">" +
-        "<h4 id=\"articleName\"><a href=" + url + ">" + title + "</a></h4>" +
+        "<h4 id=\"articleName\">"+ title + "</h4>" +
         "<p id=\"articleDesc\">"+ date + ": " + description +  "</p></li>");
+        newsArticlLiEl.click(function() {
+            window.open(url, "_blank").focus();
+        });
         newsArticleUlEl.append(newsArticlLiEl);
     }
 }
@@ -123,7 +126,16 @@ function addSymbolToHistory(symbol){
     console.log("adding symbol to history");
 }
 
-
+/*
+    Function: getStockPriceColor
+    Purpose: determines if the stock price is lower or higher than the open price
+    input: stockPrice - the current stock price
+            openningPrice - the open price for the stock 
+    return: string - the color code corresponding to if the stock is at a loss or gain
+*/
+function getStockPriceColor(stockPrice, openningPrice) {
+    return null;
+}
 /*
     Script Executions
 */
