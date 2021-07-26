@@ -1,7 +1,7 @@
 /*
     Global variables and constants
 */
-let company = ["AMZN", "PYPL", "AAPL", "UBER", "LYFT", "DAL"];
+
 
 /* 
     Functions
@@ -15,15 +15,13 @@ let company = ["AMZN", "PYPL", "AAPL", "UBER", "LYFT", "DAL"];
 */
 function handleSearchButtonClick(event) {
     console.log(event.target);
+    //read the value of the search field and store it
     let userInput=$("#searchInput").val();
     console.log(userInput);
-    //TODO: read the value of the search field and store it
-    //TODO: call the stockprice api to get the data 
-    //TODO: call the news api to get the news
-    //TODO: catch potential errors and stop execution
-    //process the data and display it
-callStockPriceApi(userInput);
-callNewsApi(userInput)
+    //call the stockprice api to get the data 
+    callStockPriceApi(userInput);
+    //call the news api to get the news
+    callNewsApi(userInput)
 }
 
 /* 
@@ -46,7 +44,7 @@ function callStockPriceApi(companySymbol) {
             // process the results
             let data=responseJson["Global Quote"];
             processStockPriceResults(data);
-            addSymbolToHistory(companySymbol);
+            addSymbolToHistory(companySymbol, responseJson["Global Quote"]["05. price"]);
         })
         .catch((error)=>{
             console.error(error);
@@ -64,7 +62,7 @@ function callNewsApi(companySymbol) {
     var url = "http://api.mediastack.com/v1/news" + 
     "?access_key=fd3243985364e10fe4addcfc54c90c8c" + 
     "&keywords=" + companySymbol + 
-    "&category=business&sort=published_desc&limit=5";
+    "&category=business&sort=published_desc&limit=5&languages=en";
 
     fetch(url)
     .then((response) => response.json())
@@ -84,20 +82,13 @@ function callNewsApi(companySymbol) {
 */
 function processStockPriceResults(stockData) {
     console.log("stockData", stockData);
-    // let stockInfoUlEl = $("#stockPanelData");
-    // let stockPrice = stockData["05. price"];
-    // let stockPriceEl = $("<li>Price: " + stockPrice + "</li>");
 
-
-    // stockInfoUlEl.append(stockPriceEl);
     $("#companyName").text("Company Name: " + stockData["01. symbol"]);
+    //TODO: handle the price color display
     $("#price").text("Price: " + stockData ["05. price"]);
     $("#openingPrice").text("Opening: " + stockData ["02. open"]);
     $("#weekHigh").text("52 Weeks High: " + stockData ["03. high"]);
     $("#volume").text("Market Volume: " + stockData ["06. volume"]);
-
-
-    //TODO: append other stock parameter to the list
 }
 
 /*
@@ -139,17 +130,23 @@ function processNewsArticlResults(newsData) {
 */
 function addSymbolToHistory(symbol, price){
     console.log("adding symbol to history");
+    symbol = symbol.toUpperCase();
     //get the history elements
     let historyUlEl = $("#seachHistoryUi");
     let historyLiEl = $(`#${symbol}`);
+    //remove the item from the list to avoid having duplicates
     historyLiEl.remove();
-
     historyLiEl = $("<li class=\"button is-info is-size-5 is-clickable m-1\" id=\"" + symbol + "\">" 
     + symbol + ":" + price + "</li>");
+    //add on click
+    historyLiEl.click(function (event) {
+        console.log(event.currentTarget.id);
+        callNewsApi(symbol);
+        callStockPriceApi(symbol);
+    });
     historyUlEl.prepend(historyLiEl);
     
     //TODO: need to write to storage
-    //TODO: need to add on click
 }
 
 /*
@@ -162,32 +159,8 @@ function addSymbolToHistory(symbol, price){
 function getStockPriceColor(stockPrice, openningPrice) {
     return null;
 }
+
 /*
     Script Executions
 */
 $("#searchBtn").click(handleSearchButtonClick)
-
-//callStockPriceApi(company[0]);
-//callNewsApi(company[0]);
-function addSymbolHistoryTest() {
-    addSymbolToHistory("amazon", "1000");
-    addSymbolToHistory("apple", "200");
-    addSymbolToHistory("netflix", "300");
-    addSymbolToHistory("google", "2000");
-    addSymbolToHistory("apple", "300");
-
-    //should display in this order
-    /*
-        apple 300
-        google 2000
-        netflix 300
-        amazon 1000
-    */
-}
-addSymbolHistoryTest();
-
-
-
-
-
-//TODO: on refresh load the last searched stock
