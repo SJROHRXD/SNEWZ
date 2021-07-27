@@ -24,6 +24,12 @@ function handleSearchButtonClick(event) {
     callNewsApi(userInput)
 }
 
+function clearButtonClick() {
+    $("#searchHistoryUl").html("");
+    console.log("delete");
+     //localStorage.clear()
+
+}
 /* 
     Function name: callStockPriceApi
     Purpose: calls the stock price api 
@@ -67,7 +73,7 @@ function callNewsApi(companySymbol) {
     fetch(url)
     .then((response) => response.json())
         .then((responseJson) => {
-            processNewsArticlResults(responseJson);
+            processNewsArticleResults(responseJson);
         })
         .catch((error)=>{
             console.error(error);
@@ -97,7 +103,7 @@ function processStockPriceResults(stockData) {
     input: newsData - json of the result from the api call
     return: none
 */
-function processNewsArticlResults(newsData) {
+function processNewsArticleResults(newsData) {
     console.log(newsData);
     let newsArticleUlEl = $("#newsArticlesUl");
     newsArticleUlEl.empty();
@@ -112,13 +118,13 @@ function processNewsArticlResults(newsData) {
         let description = newsData.data[i].description;
         let date = new Date(newsData.data[i].published_at).toDateString();
         //TODO: make this cleaner
-        let newsArticlLiEl = $("<li class=\"box has-background-dark has-text-white\">" +
+        let newsArticleLiEl = $("<li class=\"box has-background-dark has-text-white\">" +
         "<h4 id=\"articleName\">"+ title + "</h4>" +
         "<p id=\"articleDesc\">"+ date + ": " + description +  "</p></li>");
-        newsArticlLiEl.click(function() {
+        newsArticleLiEl.click(function() {
             window.open(url, "_blank").focus();
         });
-        newsArticleUlEl.append(newsArticlLiEl);
+        newsArticleUlEl.append(newsArticleLiEl);
     }
 }
 
@@ -132,17 +138,20 @@ function addSymbolToHistory(symbol, price){
     console.log("adding symbol to history");
     symbol = symbol.toUpperCase();
     //get the history elements
-    let historyUlEl = $("#seachHistoryUi");
+    let historyUlEl = $("#searchHistoryUl");
     let historyLiEl = $(`#${symbol}`);
     //remove the item from the list to avoid having duplicates
-    historyLiEl.remove();
+     historyLiEl.remove();
+    
     historyLiEl = $("<li class=\"button is-info is-size-5 is-clickable m-1\" id=\"" + symbol + "\">" 
     + symbol + ":" + price + "</li>");
+    console.log(historyLiEl, historyUlEl);
     //add on click
     historyLiEl.click(function (event) {
         console.log(event.currentTarget.id);
         callNewsApi(symbol);
         callStockPriceApi(symbol);
+        
     });
     historyUlEl.prepend(historyLiEl);
     
@@ -153,14 +162,16 @@ function addSymbolToHistory(symbol, price){
     Function: getStockPriceColor
     Purpose: determines if the stock price is lower or higher than the open price
     input: stockPrice - the current stock price
-            openningPrice - the open price for the stock 
+            openingPrice - the open price for the stock 
     return: string - the color code corresponding to if the stock is at a loss or gain
 */
-function getStockPriceColor(stockPrice, openningPrice) {
+function getStockPriceColor(stockPrice, openingPrice) {
     return null;
 }
 
 /*
     Script Executions
 */
-$("#searchBtn").click(handleSearchButtonClick)
+$("#searchBtn").click(handleSearchButtonClick);
+
+$("#clearAllBtn").click(clearButtonClick)
