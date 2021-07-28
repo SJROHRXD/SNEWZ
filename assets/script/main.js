@@ -157,14 +157,16 @@ function processNewsArticleResults(newsData) {
     input: symbol - they company's symbol to add
     return: none
 */
+const historyArray = [];
+const historyUlEl = $("#searchHistoryUl");
 function addSymbolToHistory(symbol, price){
     console.log("adding symbol to history");
     symbol = symbol.toUpperCase();
     //get the history elements
-    let historyUlEl = $("#searchHistoryUl");
-    // let historyLiEl = $(`#${symbol}`);
+    
+    
     //remove the item from the list to avoid having duplicates
-    //  historyLiEl.remove();
+   
     
     let historyLiEl = $("<li class=\"button is-info is-size-5 is-clickable m-1\" id=\"" + symbol + "\">" 
     + symbol + ":" + price + "</li>");
@@ -176,6 +178,7 @@ function addSymbolToHistory(symbol, price){
         callStockPriceApi(symbol);
         
     });
+    $(`#${symbol}`).remove();
     historyUlEl.prepend(historyLiEl);
     
     //TODO: need to write to storage
