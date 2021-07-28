@@ -135,7 +135,7 @@ function processNewsArticleResults(newsData) {
         let description = newsData.data[i].description;
         let date = new Date(newsData.data[i].published_at).toDateString();
         //TODO: make this cleaner
-        let newsArticleLiEl = $("<li class=\"box has-background-dark has-text-white\">" +
+        let newsArticleLiEl = $("<li class=\"box news-article has-background-dark has-text-white\">" +
         "<h4 id=\"articleName\">"+ title + "</h4>" +
         "<p id=\"articleDesc\">"+ date + ": " + description +  "</p></li>");
         newsArticleLiEl.click(function() {

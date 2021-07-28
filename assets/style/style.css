@@ -19,3 +19,7 @@
     font-size: .9rem !important;
     background-color: #3968a1 !important;
 }
+
+.news-article:hover {
+    background-color: #a13939 !important;
+}
