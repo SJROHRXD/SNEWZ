@@ -48,9 +48,13 @@ function callStockPriceApi(companySymbol) {
             console.log(responseJson);
             console.log(responseJson["Global Quote"]["05. price"]);
             // process the results
-            let data=responseJson["Global Quote"];
-            processStockPriceResults(data);
-            addSymbolToHistory(companySymbol, responseJson["Global Quote"]["05. price"]);
+            let stockPrice = responseJson["Global Quote"]["05. price"];
+            if (stockPrice != undefined) {
+                let data=responseJson["Global Quote"];
+                processStockPriceResults(data);
+                addSymbolToHistory(companySymbol, responseJson["Global Quote"]["05. price"]);
+            }
+            
         })
         .catch((error)=>{
             console.error(error);
@@ -105,7 +109,8 @@ function processStockPriceResults(stockData) {
 */
 function processNewsArticleResults(newsData) {
     console.log(newsData);
-    let newsArticleUlEl = $("#newsArticlesUl");
+    let newsArticlesDevEl = $("#newsArticlesDiv");
+    let newsArticleUlEl = $("<ul id=\"newsArticlesUl\"></ul>");
     newsArticleUlEl.empty();
     
     for (let i = 0; i < newsData.data.length; i++) {
@@ -126,6 +131,7 @@ function processNewsArticleResults(newsData) {
         });
         newsArticleUlEl.append(newsArticleLiEl);
     }
+    newsArticlesDevEl.append(newsArticleUlEl);
 }
 
 /*
@@ -139,11 +145,11 @@ function addSymbolToHistory(symbol, price){
     symbol = symbol.toUpperCase();
     //get the history elements
     let historyUlEl = $("#searchHistoryUl");
-    let historyLiEl = $(`#${symbol}`);
+    // let historyLiEl = $(`#${symbol}`);
     //remove the item from the list to avoid having duplicates
-     historyLiEl.remove();
+    //  historyLiEl.remove();
     
-    historyLiEl = $("<li class=\"button is-info is-size-5 is-clickable m-1\" id=\"" + symbol + "\">" 
+    let historyLiEl = $("<li class=\"button is-info is-size-5 is-clickable m-1\" id=\"" + symbol + "\">" 
     + symbol + ":" + price + "</li>");
     console.log(historyLiEl, historyUlEl);
     //add on click
