@@ -1,7 +1,7 @@
 /*
     Global variables and constants
 */
-let company = ["AMZN", "PYPL", "AAPL", "UBER", "LYFT", "DAL"];
+
 
 /* 
     Functions
@@ -15,13 +15,21 @@ let company = ["AMZN", "PYPL", "AAPL", "UBER", "LYFT", "DAL"];
 */
 function handleSearchButtonClick(event) {
     console.log(event.target);
-    //TODO: read the value of the search field and store it
-    //TODO: call the stockprice api to get the data 
-    //TODO: call the news api to get the news
-    //TODO: catch potential errors and stop execution
-    //process the data and display it
+    //read the value of the search field and store it
+    let userInput=$("#searchInput").val();
+    console.log(userInput);
+    //call the stockprice api to get the data 
+    callStockPriceApi(userInput);
+    //call the news api to get the news
+    callNewsApi(userInput)
 }
 
+function clearButtonClick() {
+    $("#searchHistoryUl").html("");
+    console.log("delete");
+     //localStorage.clear()
+
+}
 /* 
     Function name: callStockPriceApi
     Purpose: calls the stock price api 
@@ -40,8 +48,13 @@ function callStockPriceApi(companySymbol) {
             console.log(responseJson);
             console.log(responseJson["Global Quote"]["05. price"]);
             // process the results
-            processStockPriceResults(responseJson);
-            addSymbolToHistory(companySymbol);
+            let stockPrice = responseJson["Global Quote"]["05. price"];
+            if (stockPrice != undefined) {
+                let data=responseJson["Global Quote"];
+                processStockPriceResults(data);
+                addSymbolToHistory(companySymbol, responseJson["Global Quote"]["05. price"]);
+            }
+            
         })
         .catch((error)=>{
             console.error(error);
@@ -59,12 +72,12 @@ function callNewsApi(companySymbol) {
     var url = "http://api.mediastack.com/v1/news" + 
     "?access_key=fd3243985364e10fe4addcfc54c90c8c" + 
     "&keywords=" + companySymbol + 
-    "&category=business&sort=published_desc&limit=5";
+    "&category=business&sort=published_desc&limit=5&languages=en";
 
     fetch(url)
     .then((response) => response.json())
         .then((responseJson) => {
-            processNewsArticlResults(responseJson);
+            processNewsArticleResults(responseJson);
         })
         .catch((error)=>{
             console.error(error);
@@ -79,6 +92,7 @@ function callNewsApi(companySymbol) {
 */
 function processStockPriceResults(stockData) {
     console.log("stockData", stockData);
+
 
     $CompInfoBox = $(`<div class="box has-background-info has-text-white"></div>`)
     $companyName = $(`<h2 class="title has-text-white" id="companyName">Company Name: ${stockData['01. symbol']}</h2>`)
@@ -105,9 +119,10 @@ function processStockPriceResults(stockData) {
     input: newsData - json of the result from the api call
     return: none
 */
-function processNewsArticlResults(newsData) {
+function processNewsArticleResults(newsData) {
     console.log(newsData);
-    let newsArticleUlEl = $("#newsArticlesUl");
+    let newsArticlesDevEl = $("#newsArticlesDiv");
+    let newsArticleUlEl = $("<ul id=\"newsArticlesUl\"></ul>");
     newsArticleUlEl.empty();
     
     for (let i = 0; i < newsData.data.length; i++) {
@@ -119,9 +134,16 @@ function processNewsArticlResults(newsData) {
         let url = newsData.data[i].url;
         let description = newsData.data[i].description;
         let date = new Date(newsData.data[i].published_at).toDateString();
-        let newsArticlLiEl = $("<li> <a href=" + url + ">" + title + "</a><p>"+ date + ": " + description +  "</p></li>");
-        newsArticleUlEl.append(newsArticlLiEl);
+        //TODO: make this cleaner
+        let newsArticleLiEl = $("<li class=\"box has-background-dark has-text-white\">" +
+        "<h4 id=\"articleName\">"+ title + "</h4>" +
+        "<p id=\"articleDesc\">"+ date + ": " + description +  "</p></li>");
+        newsArticleLiEl.click(function() {
+            window.open(url, "_blank").focus();
+        });
+        newsArticleUlEl.append(newsArticleLiEl);
     }
+    newsArticlesDevEl.append(newsArticleUlEl);
 }
 
 /*
@@ -130,17 +152,44 @@ function processNewsArticlResults(newsData) {
     input: symbol - they company's symbol to add
     return: none
 */
-function addSymbolToHistory(symbol){
+function addSymbolToHistory(symbol, price){
     console.log("adding symbol to history");
+    symbol = symbol.toUpperCase();
+    //get the history elements
+    let historyUlEl = $("#searchHistoryUl");
+    // let historyLiEl = $(`#${symbol}`);
+    //remove the item from the list to avoid having duplicates
+    //  historyLiEl.remove();
+    
+    let historyLiEl = $("<li class=\"button is-info is-size-5 is-clickable m-1\" id=\"" + symbol + "\">" 
+    + symbol + ":" + price + "</li>");
+    console.log(historyLiEl, historyUlEl);
+    //add on click
+    historyLiEl.click(function (event) {
+        console.log(event.currentTarget.id);
+        callNewsApi(symbol);
+        callStockPriceApi(symbol);
+        
+    });
+    historyUlEl.prepend(historyLiEl);
+    
+    //TODO: need to write to storage
 }
 
+/*
+    Function: getStockPriceColor
+    Purpose: determines if the stock price is lower or higher than the open price
+    input: stockPrice - the current stock price
+            openingPrice - the open price for the stock 
+    return: string - the color code corresponding to if the stock is at a loss or gain
+*/
+function getStockPriceColor(stockPrice, openingPrice) {
+    return null;
+}
 
 /*
     Script Executions
 */
-$("#searchBtn").click(handleSearchButtonClick)
-//callStockPriceApi(company[0]);
-callNewsApi(company[0]);
+$("#searchBtn").click(handleSearchButtonClick);
 
-
-//TODO: on refresh load the last searched stock
+$("#clearAllBtn").click(clearButtonClick)
