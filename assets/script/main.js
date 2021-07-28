@@ -121,10 +121,11 @@ function processStockPriceResults(stockData) {
     input: newsData - json of the result from the api call
     return: none
 */
+const newsArticlesDevEl = $(`<div class="column is-full has-background-info" id="newsArticlesDiv">`);
+const newsArticleUlEl = $("<ul id=\"newsArticlesUl\"></ul>");
 function processNewsArticleResults(newsData) {
     console.log(newsData);
-    let newsArticlesDevEl = $(`<div class="column is-full has-background-info" id="newsArticlesDiv">`);
-    let newsArticleUlEl = $("<ul id=\"newsArticlesUl\"></ul>");
+    newsArticlesDevEl.empty()
     newsArticleUlEl.empty();
     
     for (let i = 0; i < newsData.data.length; i++) {
@@ -145,6 +146,7 @@ function processNewsArticleResults(newsData) {
         });
         newsArticleUlEl.append(newsArticleLiEl);
     }
+
     newsArticlesDevEl.append(newsArticleUlEl);
     $('#CompanyInfo').append(newsArticlesDevEl);
 }
