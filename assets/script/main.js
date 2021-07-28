@@ -122,7 +122,7 @@ function processStockPriceResults(stockData) {
 */
 function processNewsArticleResults(newsData) {
     console.log(newsData);
-    let newsArticlesDevEl = $("#newsArticlesDiv");
+    let newsArticlesDevEl = $(`<div class="column is-full has-background-info" id="newsArticlesDiv">`);
     let newsArticleUlEl = $("<ul id=\"newsArticlesUl\"></ul>");
     newsArticleUlEl.empty();
     
@@ -145,6 +145,7 @@ function processNewsArticleResults(newsData) {
         newsArticleUlEl.append(newsArticleLiEl);
     }
     newsArticlesDevEl.append(newsArticleUlEl);
+    $('#CompanyInfo').append(newsArticlesDevEl);
 }
 
 /*
