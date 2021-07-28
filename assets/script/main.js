@@ -195,6 +195,18 @@ function addSymbolToHistory(symbol, price){
 
 }
 
+/* 
+    Function: loadHistoryArray()
+    Purpose: loads the history array from local storage and display the prices when the stock was last checked
+    input: none
+    return: none
+*/
+function loadHistoryArray() {
+    //iterate through the array can call addSymbolToHistory
+    //call the callNewsApi() with the last company symbol in the array
+    //call the stockprice api with the last company symbol in the array 
+}
+
 /*
     Function: getStockPriceColor
     Purpose: determines if the stock price is lower or higher than the open price
@@ -210,5 +222,5 @@ function getStockPriceColor(stockPrice, openingPrice) {
     Script Executions
 */
 $("#searchBtn").click(handleSearchButtonClick);
-
-$("#clearAllBtn").click(clearButtonClick)
+$("#clearAllBtn").click(clearButtonClick);
+loadHistoryArray();
