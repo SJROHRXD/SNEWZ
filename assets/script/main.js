@@ -16,12 +16,13 @@
 function handleSearchButtonClick(event) {
     console.log(event.target);
     //read the value of the search field and store it
-    let userInput=$("#searchInput").val();
+    let userInput=$("#searchInput").val().trim();
+    //call the news api to get the news
+    callNewsApi(userInput);
     console.log(userInput);
     //call the stockprice api to get the data 
     callStockPriceApi(userInput);
-    //call the news api to get the news
-    callNewsApi(userInput)
+
 }
 
 function clearButtonClick() {
