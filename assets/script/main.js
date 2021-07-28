@@ -48,9 +48,13 @@ function callStockPriceApi(companySymbol) {
             console.log(responseJson);
             console.log(responseJson["Global Quote"]["05. price"]);
             // process the results
-            let data=responseJson["Global Quote"];
-            processStockPriceResults(data);
-            addSymbolToHistory(companySymbol, responseJson["Global Quote"]["05. price"]);
+            let stockPrice = responseJson["Global Quote"]["05. price"];
+            if (stockPrice != undefined) {
+                let data=responseJson["Global Quote"];
+                processStockPriceResults(data);
+                addSymbolToHistory(companySymbol, responseJson["Global Quote"]["05. price"]);
+            }
+            
         })
         .catch((error)=>{
             console.error(error);
