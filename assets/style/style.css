@@ -19,3 +19,12 @@
     font-size: .9rem !important;
     background-color: #3968a1 !important;
 }
+
+#columnsDiv {
+    height: 100vh;
+}
+
+#searchDiv {
+    height: fit-content;
+    width: fit-content;
+}
