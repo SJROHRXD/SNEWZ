@@ -157,7 +157,7 @@ function processNewsArticleResults(newsData) {
     input: symbol - they company's symbol to add
     return: none
 */
-const historyArray = [];
+const historyArray = JSON.parse(localStorage.getItem("historyArray")) || [];;
 const historyUlEl = $("#searchHistoryUl");
 function addSymbolToHistory(symbol, price){
     console.log("adding symbol to history");
@@ -181,7 +181,18 @@ function addSymbolToHistory(symbol, price){
     $(`#${symbol}`).remove();
     historyUlEl.prepend(historyLiEl);
     
-    //TODO: need to write to storage
+    let symbolIndex = historyArray.indexOf(symbol);
+    if (symbolIndex != -1) {
+        console.log(`symbol indeex ${symbolIndex}`);
+        historyArray.splice(symbolIndex, 2);
+        console.log(`history array after splice ${historyArray}`);
+    }
+    historyArray.push(symbol);
+    historyArray.push(price);
+    localStorage.setItem("historyArray", JSON.stringify(historyArray));
+
+
+
 }
 
 /*
