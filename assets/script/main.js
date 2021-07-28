@@ -49,12 +49,13 @@ function callStockPriceApi(companySymbol) {
             console.log(responseJson);
             console.log(responseJson["Global Quote"]["05. price"]);
             // process the results
-            let data=responseJson["Global Quote"];
             let stockPrice = responseJson["Global Quote"]["05. price"];
-            if (stockPrice !== undefined) {
+            if (stockPrice != undefined) {
+                let data=responseJson["Global Quote"];
                 processStockPriceResults(data);
-                addSymbolToHistory(companySymbol, stockPrice);
-            }            
+                addSymbolToHistory(companySymbol, responseJson["Global Quote"]["05. price"]);
+            }
+            
         })
         .catch((error)=>{
             console.error(error);
@@ -93,12 +94,24 @@ function callNewsApi(companySymbol) {
 function processStockPriceResults(stockData) {
     console.log("stockData", stockData);
 
-    $("#companyName").text("Company Name: " + stockData["01. symbol"]);
-    //TODO: handle the price color display
-    $("#price").text("Price: " + stockData ["05. price"]);
-    $("#openingPrice").text("Opening: " + stockData ["02. open"]);
-    $("#weekHigh").text("52 Weeks High: " + stockData ["03. high"]);
-    $("#volume").text("Market Volume: " + stockData ["06. volume"]);
+
+    $CompInfoBox = $(`<div class="box has-background-info has-text-white"></div>`)
+    $companyName = $(`<h2 class="title has-text-white" id="companyName">Company Name: ${stockData['01. symbol']}</h2>`)
+    $price = $(`<li class='is-small' id="price">Price: ${stockData['05. price']}</li>`)
+    $openingPrice = $(`<li class='is-small' id="openingPrice">Opening Price: ${stockData['02. open']}</li>`)
+    $weekHigh = $(`<li class='is-small' id="weekHigh">52 Week High: ${stockData['03. high']}</li>`)
+    $volume = $(`<li class='is-small' id="volume">Volume: ${stockData['06. volume']}</li>`)
+
+
+    $($CompInfoBox).append($companyName, $price, $openingPrice, $weekHigh, $volume)
+    $('#CompanyInfo').prepend($CompInfoBox)
+
+    // $("#companyName").text("Company Name: " + stockData["01. symbol"]);
+    // //TODO: handle the price color display
+    // $("#price").text("Price: " + stockData ["05. price"]);
+    // $("#openingPrice").text("Opening: " + stockData ["02. open"]);
+    // $("#weekHigh").text("52 Weeks High: " + stockData ["03. high"]);
+    // $("#volume").text("Market Volume: " + stockData ["06. volume"]);
 }
 
 /*
@@ -109,7 +122,8 @@ function processStockPriceResults(stockData) {
 */
 function processNewsArticleResults(newsData) {
     console.log(newsData);
-    let newsArticleUlEl = $("#newsArticlesUl");
+    let newsArticlesDevEl = $("#newsArticlesDiv");
+    let newsArticleUlEl = $("<ul id=\"newsArticlesUl\"></ul>");
     newsArticleUlEl.empty();
     
     for (let i = 0; i < newsData.data.length; i++) {
@@ -130,6 +144,7 @@ function processNewsArticleResults(newsData) {
         });
         newsArticleUlEl.append(newsArticleLiEl);
     }
+    newsArticlesDevEl.append(newsArticleUlEl);
 }
 
 /*
@@ -143,11 +158,11 @@ function addSymbolToHistory(symbol, price){
     symbol = symbol.toUpperCase();
     //get the history elements
     let historyUlEl = $("#searchHistoryUl");
-    let historyLiEl = $(`#${symbol}`);
+    // let historyLiEl = $(`#${symbol}`);
     //remove the item from the list to avoid having duplicates
-     historyLiEl.remove();
+    //  historyLiEl.remove();
     
-    historyLiEl = $("<li class=\"button is-info is-size-5 is-clickable m-1\" id=\"" + symbol + "\">" 
+    let historyLiEl = $("<li class=\"button is-info is-size-5 is-clickable m-1\" id=\"" + symbol + "\">" 
     + symbol + ":" + price + "</li>");
     console.log(historyLiEl, historyUlEl);
     //add on click
