@@ -93,12 +93,24 @@ function callNewsApi(companySymbol) {
 function processStockPriceResults(stockData) {
     console.log("stockData", stockData);
 
-    $("#companyName").text("Company Name: " + stockData["01. symbol"]);
-    //TODO: handle the price color display
-    $("#price").text("Price: " + stockData ["05. price"]);
-    $("#openingPrice").text("Opening: " + stockData ["02. open"]);
-    $("#weekHigh").text("52 Weeks High: " + stockData ["03. high"]);
-    $("#volume").text("Market Volume: " + stockData ["06. volume"]);
+
+    $CompInfoBox = $(`<div class="box has-background-info has-text-white"></div>`)
+    $companyName = $(`<h2 class="title has-text-white" id="companyName">Company Name: ${stockData['01. symbol']}</h2>`)
+    $price = $(`<li class='is-small' id="price">Price: ${stockData['05. price']}</li>`)
+    $openingPrice = $(`<li class='is-small' id="openingPrice">Opening Price: ${stockData['02. open']}</li>`)
+    $weekHigh = $(`<li class='is-small' id="weekHigh">52 Week High: ${stockData['03. high']}</li>`)
+    $volume = $(`<li class='is-small' id="volume">Volume: ${stockData['06. volume']}</li>`)
+
+
+    $($CompInfoBox).append($companyName, $price, $openingPrice, $weekHigh, $volume)
+    $('#CompanyInfo').prepend($CompInfoBox)
+
+    // $("#companyName").text("Company Name: " + stockData["01. symbol"]);
+    // //TODO: handle the price color display
+    // $("#price").text("Price: " + stockData ["05. price"]);
+    // $("#openingPrice").text("Opening: " + stockData ["02. open"]);
+    // $("#weekHigh").text("52 Weeks High: " + stockData ["03. high"]);
+    // $("#volume").text("Market Volume: " + stockData ["06. volume"]);
 }
 
 /*
