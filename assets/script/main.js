@@ -16,12 +16,13 @@
 function handleSearchButtonClick(event) {
     console.log(event.target);
     //read the value of the search field and store it
-    let userInput=$("#searchInput").val();
+    let userInput=$("#searchInput").val().trim();
+    //call the news api to get the news
+    callNewsApi(userInput);
     console.log(userInput);
     //call the stockprice api to get the data 
     callStockPriceApi(userInput);
-    //call the news api to get the news
-    callNewsApi(userInput)
+
 }
 
 function clearButtonClick() {
@@ -49,8 +50,11 @@ function callStockPriceApi(companySymbol) {
             console.log(responseJson["Global Quote"]["05. price"]);
             // process the results
             let data=responseJson["Global Quote"];
-            processStockPriceResults(data);
-            addSymbolToHistory(companySymbol, responseJson["Global Quote"]["05. price"]);
+            let stockPrice = responseJson["Global Quote"]["05. price"];
+            if (stockPrice !== undefined) {
+                processStockPriceResults(data);
+                addSymbolToHistory(companySymbol, stockPrice);
+            }            
         })
         .catch((error)=>{
             console.error(error);
