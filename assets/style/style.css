@@ -37,3 +37,7 @@ li {
 .is-small {
     font-size: 1.2rem;
 }
+
+img {
+    border-radius: 100px;
+}
