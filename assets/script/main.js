@@ -73,7 +73,7 @@ function callStockPriceApi(companySymbol) {
 function callNewsApi(companySymbol) {
     
     var url = "http://api.mediastack.com/v1/news" + 
-    "?access_key=fd3243985364e10fe4addcfc54c90c8c" + 
+    "?access_key=79405bcf695dfdeab555e5180eb79a1e" + 
     "&keywords=" + companySymbol + 
     "&category=business&sort=published_desc&limit=5&languages=en";
 
