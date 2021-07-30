@@ -91,18 +91,19 @@ function callNewsApi(companySymbol) {
     input: stockData - json of the result from the api call
     return: none
 */
+$CompInfoBox = $(`<div class="box has-background-info has-text-white"></div>`)
 function processStockPriceResults(stockData) {
     console.log("stockData", stockData);
 
 
-    $CompInfoBox = $(`<div class="box has-background-info has-text-white"></div>`)
+    
     $companyName = $(`<h2 class="title has-text-white" id="companyName">Company Name: ${stockData['01. symbol']}</h2>`)
     $price = $(`<li class='is-small' id="price">Price: ${stockData['05. price']}</li>`)
     $openingPrice = $(`<li class='is-small' id="openingPrice">Opening Price: ${stockData['02. open']}</li>`)
     $weekHigh = $(`<li class='is-small' id="weekHigh">52 Week High: ${stockData['03. high']}</li>`)
     $volume = $(`<li class='is-small' id="volume">Volume: ${stockData['06. volume']}</li>`)
 
-
+    $CompInfoBox.empty();
     $($CompInfoBox).append($companyName, $price, $openingPrice, $weekHigh, $volume)
     $('#CompanyInfo').prepend($CompInfoBox)
 
@@ -120,10 +121,11 @@ function processStockPriceResults(stockData) {
     input: newsData - json of the result from the api call
     return: none
 */
+const newsArticlesDevEl = $(`<div class="column is-full has-background-info" id="newsArticlesDiv">`);
+const newsArticleUlEl = $("<ul id=\"newsArticlesUl\"></ul>");
 function processNewsArticleResults(newsData) {
     console.log(newsData);
-    let newsArticlesDevEl = $(`<div class="column is-full has-background-info" id="newsArticlesDiv">`);
-    let newsArticleUlEl = $("<ul id=\"newsArticlesUl\"></ul>");
+    newsArticlesDevEl.empty()
     newsArticleUlEl.empty();
     
     for (let i = 0; i < newsData.data.length; i++) {
@@ -144,6 +146,7 @@ function processNewsArticleResults(newsData) {
         });
         newsArticleUlEl.append(newsArticleLiEl);
     }
+
     newsArticlesDevEl.append(newsArticleUlEl);
     $('#CompanyInfo').append(newsArticlesDevEl);
 }
@@ -154,14 +157,16 @@ function processNewsArticleResults(newsData) {
     input: symbol - they company's symbol to add
     return: none
 */
+const historyArray = JSON.parse(localStorage.getItem("historyArray")) || [];;
+const historyUlEl = $("#searchHistoryUl");
 function addSymbolToHistory(symbol, price){
     console.log("adding symbol to history");
     symbol = symbol.toUpperCase();
     //get the history elements
-    let historyUlEl = $("#searchHistoryUl");
-    // let historyLiEl = $(`#${symbol}`);
+    
+    
     //remove the item from the list to avoid having duplicates
-    //  historyLiEl.remove();
+   
     
     let historyLiEl = $("<li class=\"button is-info is-size-5 is-clickable m-1\" id=\"" + symbol + "\">" 
     + symbol + ":" + price + "</li>");
@@ -173,9 +178,33 @@ function addSymbolToHistory(symbol, price){
         callStockPriceApi(symbol);
         
     });
+    $(`#${symbol}`).remove();
     historyUlEl.prepend(historyLiEl);
     
-    //TODO: need to write to storage
+    let symbolIndex = historyArray.indexOf(symbol);
+    if (symbolIndex != -1) {
+        console.log(`symbol indeex ${symbolIndex}`);
+        historyArray.splice(symbolIndex, 2);
+        console.log(`history array after splice ${historyArray}`);
+    }
+    historyArray.push(symbol);
+    historyArray.push(price);
+    localStorage.setItem("historyArray", JSON.stringify(historyArray));
+
+
+
+}
+
+/* 
+    Function: loadHistoryArray()
+    Purpose: loads the history array from local storage and display the prices when the stock was last checked
+    input: none
+    return: none
+*/
+function loadHistoryArray() {
+    //iterate through the array can call addSymbolToHistory
+    //call the callNewsApi() with the last company symbol in the array
+    //call the stockprice api with the last company symbol in the array 
 }
 
 /*
@@ -193,5 +222,5 @@ function getStockPriceColor(stockPrice, openingPrice) {
     Script Executions
 */
 $("#searchBtn").click(handleSearchButtonClick);
-
-$("#clearAllBtn").click(clearButtonClick)
+$("#clearAllBtn").click(clearButtonClick);
+loadHistoryArray();
