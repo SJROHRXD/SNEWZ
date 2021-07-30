@@ -22,13 +22,9 @@ function handleSearchButtonClick(event) {
     console.log(userInput);
     //call the stockprice api to get the data 
     callStockPriceApi(userInput);
-<<<<<<< HEAD
-
-=======
     //call the news api to get the news
     callNewsApi(userInput)
     $('#searchInput').val(' ')
->>>>>>> b0b7ed5f962bc0e4a22084abe5f0d125541cd5b8
 }
 
 function clearButtonClick() {
