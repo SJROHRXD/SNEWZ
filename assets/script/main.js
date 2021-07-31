@@ -107,7 +107,7 @@ function processStockPriceResults(stockData) {
 
 
     
-    $companyName = $(`<h2 class="title has-text-white" id="companyName">Company Name: ${priceRound(stockData['01. symbol'])}</h2>`)
+    $companyName = $(`<h2 class="title has-text-white" id="companyName">Company Name: ${stockData['01. symbol']}</h2>`)
     $price = $(`<li class='is-small' id="price">Price: ${priceRound(stockData['05. price'])}</li>`)
     $openingPrice = $(`<li class='is-small' id="openingPrice">Opening Price: ${priceRound(stockData['02. open'])}</li>`)
     $weekHigh = $(`<li class='is-small' id="weekHigh">52 Week High: ${priceRound(stockData['03. high'])}</li>`)
