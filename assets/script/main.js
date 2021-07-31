@@ -22,7 +22,9 @@ function handleSearchButtonClick(event) {
     console.log(userInput);
     //call the stockprice api to get the data 
     callStockPriceApi(userInput);
-
+    //call the news api to get the news
+    callNewsApi(userInput)
+    $('#searchInput').val(' ')
 }
 
 function clearButtonClick() {
@@ -54,11 +56,17 @@ function callStockPriceApi(companySymbol) {
                 let data=responseJson["Global Quote"];
                 processStockPriceResults(data);
                 addSymbolToHistory(companySymbol, responseJson["Global Quote"]["05. price"]);
+            } else {
+                $("#errorDescription").text("Invalid Company Symbol");
+                $("#errorModal").addClass("is-active");
             }
             
         })
         .catch((error)=>{
             console.error(error);
+            console.log("adding class is-active!");
+            $("#errorDescription").text("Stock API connection error");
+            $("#errorModal").addClass("is-active");
         });
 }
 
@@ -81,7 +89,9 @@ function callNewsApi(companySymbol) {
             processNewsArticleResults(responseJson);
         })
         .catch((error)=>{
-            console.error(error);
+            $("#errorDescription").text("News API connection error");
+            $("#errorModal").addClass("is-active");
+            //console.error(error);
         });
 }
 
@@ -163,11 +173,7 @@ function addSymbolToHistory(symbol, price){
     console.log("adding symbol to history");
     symbol = symbol.toUpperCase();
     //get the history elements
-    
-    
     //remove the item from the list to avoid having duplicates
-   
-    
     let historyLiEl = $("<li class=\"button is-info is-size-5 is-clickable m-1\" id=\"" + symbol + "\">" 
     + symbol + ":" + price + "</li>");
     console.log(historyLiEl, historyUlEl);
@@ -190,9 +196,6 @@ function addSymbolToHistory(symbol, price){
     historyArray.push(symbol);
     historyArray.push(price);
     localStorage.setItem("historyArray", JSON.stringify(historyArray));
-
-
-
 }
 
 /* 
@@ -235,4 +238,7 @@ function getStockPriceColor(stockPrice, openingPrice) {
 */
 $("#searchBtn").click(handleSearchButtonClick);
 $("#clearAllBtn").click(clearButtonClick);
+$(".modalDismissButton").click(function(event){
+    $("#errorModal").removeClass("is-active");
+});
 loadHistoryArray();
