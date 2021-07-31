@@ -219,7 +219,7 @@ function loadHistoryArray() {
         addSymbolToHistory(symbol, price);
     }
         callNewsApi(symbol);
-        callStockPriceApi(price);
+        callStockPriceApi(symbol);
 }
 
 /*
