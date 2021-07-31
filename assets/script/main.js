@@ -79,7 +79,7 @@ function callStockPriceApi(companySymbol) {
 function callNewsApi(companySymbol) {
     
     var url = "https://api.mediastack.com/v1/news" + 
-    "?access_key=494ac16dd29eb5cd6bc8acdc8245b740" + 
+    "?access_key=79405bcf695dfdeab555e5180eb79a1e" + 
     "&keywords=" + companySymbol + 
     "&category=business&sort=published_desc&limit=5&languages=en";
 
@@ -91,7 +91,7 @@ function callNewsApi(companySymbol) {
         .catch((error)=>{
             $("#errorDescription").text("News API connection error");
             $("#errorModal").addClass("is-active");
-            //console.error(error);
+            console.error(error);
         });
 }
 
@@ -205,18 +205,21 @@ function addSymbolToHistory(symbol, price){
     return: none
 */
 function loadHistoryArray() {
+    let historyArray = JSON.parse(localStorage.getItem("historyArray")) || [];;
     //iterate through the array can call addSymbolToHistory
     //call the callNewsApi() with the last company symbol in the array
     //call the stockprice api with the last company symbol in the array 
-
+    console.table(historyArray);
+    let symbol = "";
+    let price = "";
+    
     for (let i=0; i<historyArray.length; i++) {
         let symbol = historyArray[i];
-        let price =  historyArray[i+1];
-        // console.log("");
-        console.log(symbol);
-        console.log(price);
-        }
+        let price =  historyArray[++i];
+        addSymbolToHistory(symbol, price);
+    }
         callNewsApi(symbol);
+        callStockPriceApi(price);
 }
 
 /*
