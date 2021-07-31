@@ -30,7 +30,7 @@ function handleSearchButtonClick(event) {
 function clearButtonClick() {
     $("#searchHistoryUl").html("");
     console.log("delete");
-     //localStorage.clear()
+    localStorage.clear()
 
 }
 /* 
@@ -41,7 +41,7 @@ function clearButtonClick() {
 */
 function callStockPriceApi(companySymbol) {
     // build API query with symbol
-    console.log("company symbol " + companySymbol);
+    //("company symbol " + companySymbol);
     APIQuery = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${companySymbol}&apikey=8XODZRFY9GB4A5XY`;
     // fetch the api and get the result
     fetch (APIQuery)
@@ -78,8 +78,8 @@ function callStockPriceApi(companySymbol) {
 */
 function callNewsApi(companySymbol) {
     
-    var url = "http://api.mediastack.com/v1/news" + 
-    "?access_key=79405bcf695dfdeab555e5180eb79a1e" + 
+    var url = "https://api.mediastack.com/v1/news" + 
+    "?access_key=494ac16dd29eb5cd6bc8acdc8245b740" + 
     "&keywords=" + companySymbol + 
     "&category=business&sort=published_desc&limit=5&languages=en";
 
@@ -208,6 +208,15 @@ function loadHistoryArray() {
     //iterate through the array can call addSymbolToHistory
     //call the callNewsApi() with the last company symbol in the array
     //call the stockprice api with the last company symbol in the array 
+
+    for (let i=0; i<historyArray.length; i++) {
+        let symbol = historyArray[i];
+        let price =  historyArray[i+1];
+        // console.log("");
+        console.log(symbol);
+        console.log(price);
+        }
+        callNewsApi(symbol);
 }
 
 /*
