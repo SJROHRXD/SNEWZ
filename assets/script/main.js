@@ -214,12 +214,14 @@ function loadHistoryArray() {
     let price = "";
     
     for (let i=0; i<historyArray.length; i++) {
-        let symbol = historyArray[i];
-        let price =  historyArray[++i];
+        symbol = historyArray[i];
+        price =  historyArray[++i];
         addSymbolToHistory(symbol, price);
     }
+    if (symbol !== "") {    
         callNewsApi(symbol);
         callStockPriceApi(symbol);
+    }
 }
 
 /*
