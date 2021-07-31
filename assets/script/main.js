@@ -215,11 +215,8 @@ function loadHistoryArray() {
         // console.log("");
         console.log(symbol);
         console.log(price);
-
-
-        callNewsApi(symbol);
         }
-
+        callNewsApi(symbol);
 }
 
 /*
