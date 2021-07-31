@@ -1,4 +1,4 @@
-# Group Project 1
+# SNewZ
 Sarah, Mauri, Zakk, Ray
 
 ## Requirements 
@@ -38,7 +38,7 @@ To obtain the company stock and news information you desire  enter the company n
 
 4. Screenshot displays the overview of the webpage
 
-5. Link to SNews Webpage 
+5. Link to SNewZ Webpage: https://sjrohrxd.github.io/SNEWZ/
 
 
 
