@@ -36,7 +36,7 @@ To obtain the company stock and news information you desire  enter the company s
 
 ### Screenshot 
 Displays the overview of the webpage once you have entered a correct company symbol.
-![](.assets/images/SNewzscreenshot.jpeg)
+![](./assets/images/SNewzscreenshot.jpeg)
 
 
 ### Link 
