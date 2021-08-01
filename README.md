@@ -1,5 +1,7 @@
 # SNewZ
 Group Project 1
+=======
+
 Sarah, Mauri, Zakk, Ray
 
 ## SNewZ - Interactive WebPage
@@ -36,8 +38,10 @@ To obtain the company stock and news information you desire  enter the company s
 Displays the overview of the webpage once you have entered a correct company symbol.
 ![](Users/mauriarroyo-velasco/GroupProject/groupproject1/assets/images/SNewzscreenshot.jpeg)
 
+
 ### Link 
 SNewZ Webpage: https://sjrohrxd.github.io/SNEWZ/
+=======
 
 
 
