@@ -1,7 +1,11 @@
 /*
     Global variables and constants
 */
-
+const historyArray = JSON.parse(localStorage.getItem("historyArray")) || [];;
+const historyUlEl = $("#searchHistoryUl");
+const newsArticlesDevEl = $(`<div class="column is-full has-background-info" id="newsArticlesDiv">`);
+const newsArticleUlEl = $("<ul id=\"newsArticlesUl\"></ul>");
+$CompInfoBox = $(`<div class="box has-background-info has-text-white"></div>`);
 
 /* 
     Functions
@@ -27,12 +31,19 @@ function handleSearchButtonClick(event) {
     $('#searchInput').val(' ')
 }
 
+/*
+    Function name: clearButtonClick
+    Purpose: handles the clear button click event
+    input: none
+    return: none
+*/
 function clearButtonClick() {
     $("#searchHistoryUl").html("");
     console.log("delete");
     localStorage.clear()
 
 }
+
 /* 
     Function name: callStockPriceApi
     Purpose: calls the stock price api 
@@ -41,15 +52,11 @@ function clearButtonClick() {
 */
 function callStockPriceApi(companySymbol) {
     // build API query with symbol
-    //("company symbol " + companySymbol);
     APIQuery = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${companySymbol}&apikey=8XODZRFY9GB4A5XY`;
     // fetch the api and get the result
     fetch (APIQuery)
         .then((response) => response.json())
         .then((responseJson) => {
-            //TODO: remove these logging statements before final submission
-            console.log(responseJson);
-            console.log(responseJson["Global Quote"]["05. price"]);
             // process the results
             let stockPrice = responseJson["Global Quote"]["05. price"];
             if (stockPrice != undefined) {
@@ -77,7 +84,6 @@ function callStockPriceApi(companySymbol) {
     returns: TBD
 */
 function callNewsApi(companySymbol) {
-    
     var url = "https://api.mediastack.com/v1/news" + 
     "?access_key=79405bcf695dfdeab555e5180eb79a1e" + 
     "&keywords=" + companySymbol + 
@@ -101,34 +107,26 @@ function callNewsApi(companySymbol) {
     input: stockData - json of the result from the api call
     return: none
 */
-$CompInfoBox = $(`<div class="box has-background-info has-text-white"></div>`)
 function processStockPriceResults(stockData) {
-    console.log("stockData", stockData);
-
-
-    
-    $companyName = $(`<h2 class="title has-text-white" id="companyName">Company Name: ${stockData['01. symbol']}</h2>`)
-    $price = $(`<li class='is-small' id="price">Price: ${priceRound(stockData['05. price'])}</li>`)
-    $openingPrice = $(`<li class='is-small' id="openingPrice">Opening Price: ${priceRound(stockData['02. open'])}</li>`)
-    $weekHigh = $(`<li class='is-small' id="weekHigh">52 Week High: ${priceRound(stockData['03. high'])}</li>`)
-    $volume = $(`<li class='is-small' id="volume">Volume: ${stockData['06. volume']}</li>`)
+    $companyName = $(`<h2 class="title has-text-white" id="companyName">Company Name: ${stockData['01. symbol']}</h2>`);
+    $price = $(`<li class='is-small' id="price">Price: ${priceRound(stockData['05. price'])}</li>`);
+    $openingPrice = $(`<li class='is-small' id="openingPrice">Opening Price: ${priceRound(stockData['02. open'])}</li>`);
+    $weekHigh = $(`<li class='is-small' id="weekHigh">52 Week High: ${priceRound(stockData['03. high'])}</li>`);
+    $volume = $(`<li class='is-small' id="volume">Volume: ${stockData['06. volume']}</li>`);
 
     $CompInfoBox.empty();
-    $($CompInfoBox).append($companyName, $price, $openingPrice, $weekHigh, $volume)
-    $('#CompanyInfo').prepend($CompInfoBox)
-
+    $($CompInfoBox).append($companyName, $price, $openingPrice, $weekHigh, $volume);
+    $('#CompanyInfo').prepend($CompInfoBox);
 }
 
 /*
-    Function: processNewsArticlResults
+    Function: processNewsArticleResults
     Purpose: prints results to screen 
     input: newsData - json of the result from the api call
     return: none
 */
-const newsArticlesDevEl = $(`<div class="column is-full has-background-info" id="newsArticlesDiv">`);
-const newsArticleUlEl = $("<ul id=\"newsArticlesUl\"></ul>");
 function processNewsArticleResults(newsData) {
-    console.log(newsData);
+    //remove previous entries
     newsArticlesDevEl.empty()
     newsArticleUlEl.empty();
     
@@ -141,7 +139,7 @@ function processNewsArticleResults(newsData) {
         let url = newsData.data[i].url;
         let description = newsData.data[i].description;
         let date = new Date(newsData.data[i].published_at).toDateString();
-        //TODO: make this cleaner
+        //set up the html element
         let newsArticleLiEl = $("<li class=\"box news-article has-background-dark has-text-white\">" +
         "<h4 id=\"articleName\">"+ title + "</h4>" +
         "<p id=\"articleDesc\">"+ date + ": " + description +  "</p></li>");
@@ -150,7 +148,6 @@ function processNewsArticleResults(newsData) {
         });
         newsArticleUlEl.append(newsArticleLiEl);
     }
-
     newsArticlesDevEl.append(newsArticleUlEl);
     $('#CompanyInfo').append(newsArticlesDevEl);
 }
@@ -161,8 +158,6 @@ function processNewsArticleResults(newsData) {
     input: symbol - they company's symbol to add
     return: none
 */
-const historyArray = JSON.parse(localStorage.getItem("historyArray")) || [];;
-const historyUlEl = $("#searchHistoryUl");
 function addSymbolToHistory(symbol, price){
     console.log("adding symbol to history");
     symbol = symbol.toUpperCase();
@@ -199,19 +194,18 @@ function addSymbolToHistory(symbol, price){
     return: none
 */
 function loadHistoryArray() {
-    let historyArray = JSON.parse(localStorage.getItem("historyArray")) || [];;
-    //iterate through the array can call addSymbolToHistory
-    //call the callNewsApi() with the last company symbol in the array
-    //call the stockprice api with the last company symbol in the array 
+    let historyArray = JSON.parse(localStorage.getItem("historyArray")) || [];
     console.table(historyArray);
     let symbol = "";
     let price = "";
     
+    //populate the buttons
     for (let i=0; i<historyArray.length; i++) {
         symbol = historyArray[i];
         price =  historyArray[++i];
         addSymbolToHistory(symbol, price);
     }
+    //show the last visited stock
     if (symbol !== "") {    
         callNewsApi(symbol);
         callStockPriceApi(symbol);
@@ -231,22 +225,13 @@ function priceRound(priceToRound) {
 }
 
 /*
-    Function: getStockPriceColor
-    Purpose: determines if the stock price is lower or higher than the open price
-    input: stockPrice - the current stock price
-            openingPrice - the open price for the stock 
-    return: string - the color code corresponding to if the stock is at a loss or gain
-*/
-function getStockPriceColor(stockPrice, openingPrice) {
-    return null;
-}
-
-/*
     Script Executions
 */
+//add onclick handlers
 $("#searchBtn").click(handleSearchButtonClick);
 $("#clearAllBtn").click(clearButtonClick);
 $(".modalDismissButton").click(function(event){
     $("#errorModal").removeClass("is-active");
 });
+//load the history data
 loadHistoryArray();
